@@ -1,0 +1,8 @@
+# Contains helpful scrpts to manage population data (mostly for plink format)
+
+#Compare.py 
+
+#Compares 2 plink .bim files , --file1 --file2 
+#Outputs a "combined.txt" file with all commmon SNPs 
+
+#
