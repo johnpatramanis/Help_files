@@ -26,4 +26,6 @@
 
 #removechrom90.py
 
-#made to remove SNPs with a chromosome titled 90. can be modified to remove any weird chromosomes from your vcf files
+#made to remove SNPs with a chromosome titled 90. can be modified to remove any weird chromosomes from your vcf files.
+#it will rename all chromosomes not found in the mychoms list to 0, use append.mychroms('')
+ to add additional chromosoe names not to be renamed to 0
