@@ -1,4 +1,5 @@
 import numpy as np
+import argparse
 import sklearn
 from sklearn.decomposition import PCA
 import random
@@ -13,7 +14,19 @@ from bokeh.io import output_file
 from bokeh import colors
 
 
-f = open('3popreal.eigenvec')
+parser = argparse.ArgumentParser()  
+parser.add_argument('--eig',nargs='+',type=str)
+parser.add_argument('--out',nargs='+',type=str)
+
+
+
+
+args = parser.parse_args()
+
+f = open(args.eig[0])
+
+
+
 
 data=[]
 familylabels=[]
@@ -22,18 +35,26 @@ for line in f:
     line=line.strip().split()
     familylabels.append(line[0])
     idlabels.append(line[1])
-    datalabels.append([line[2],line[3]])
+    data.append([line[2],line[3]])
+
+uniqlabels=list(set(familylabels))
+colordic={}
+for k in uniqlabels:
+    colordic[k]=colors.RGB(random.randint(1,255),random.randint(1,255),random.randint(1,255))
+print(colordic) 
+colorz=[colordic[x] for x in familylabels]  
+    
+    
 
 
-
-output_file('plot.html')
+output_file('{}.html'.format(args.out[0]))
 source = ColumnDataSource(
         data=dict(
-            x=[x[0] for x in data],
-            y=[x[1] for x in data],
+            x=[float(x[0]) for x in data],
+            y=[float(x[1]) for x in data],
             label=idlabels,
             family=familylabels,
-            colour=['blue'*len(x)]
+            colour=colorz
         )
     )
 
