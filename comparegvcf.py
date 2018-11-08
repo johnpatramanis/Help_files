@@ -13,7 +13,7 @@ args = parser.parse_args()
 file1=open(str(args.gvcf[0]))
 file2=open(str(args.bim[0]))
 newfilename='new{}'.format(file1)
-newfile=open(str(newfilename),'w')
+newfile=open('newgvcf.gvcf','w')
 
 
 data2=[]
@@ -29,12 +29,13 @@ print(setdata2)
 counts=0
 for line in file1:
     if line[0]!='#':
-        line=f.split().strip()
+        line=f.strip().split()
         position=str(line[0])+':'+str(line[1])
         if position in setdata2:
             newfile.write(line)
             newfile.write('\n')
             counts+=1
+            print(counts)
         else:
             pass
         
