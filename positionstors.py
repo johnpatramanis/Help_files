@@ -20,7 +20,9 @@ for j in supp:
 	line=j.strip().split()
 	position=str(line[0])+':'+str(line[3])
 	rs=line[1]
-	di[position]=rs
+	alt=line[4]
+	ref=line[5]
+	di[position]=[rs,alt,ref]
 	
 print(len(di))
 
@@ -30,7 +32,12 @@ for f in file1:
         line=f.strip().split()
 	position=str(line[0])+':'+str(line[3])
         try:
-		line[1]=di[position]
+		line[1]=di[position][0]
+		if line[4]=='<NON_REF>':
+			if line[5]==di[position][1]:
+				line[4]=di[position][2]
+			else:
+				line[4]=di[position][1]
 	except KeyError:
 		line[1]='Missing_rs'
         file2.write("\t".join(line))
