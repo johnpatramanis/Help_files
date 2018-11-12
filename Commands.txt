@@ -1,0 +1,139 @@
+#Filtering example
+plink --bfile PELOP_EJHG2016 --autosome --snps-only 'just-acgt' --geno 0.2 --maf 0.1 --hwe 0.000001  --make-bed --out pelopfiltered
+
+
+#example of mergeit file + command
+
+a file like this (I named it mergeMinSSHO):
+
+geno1: MinSS.geno
+snp1:  MinSS.snp
+ind1:  MinSS.ind
+geno2: HumanOriginsPublic2068.geno
+snp2:  HumanOriginsPublic2068.snp
+ind2:  HumanOriginsPublic2068.ind
+indoutfilename:  MinSSHO.ind
+snpoutfilename:  MinSSHO.snp
+genooutfilename:  MinSSHO.geno
+outputformat: EIGENSTRAT
+
+Now merge them
+mergeit -p mergeMinSSHO
+
+
+#merge bed files in plink
+plink --bfile pelopfiltered2 --merge-list mymerge.txt --indiv-sort 0 --make-bed --out merged
+
+
+#copy from one dataset file to another 
+cp /home/kluser2/datasets/1kg/{1kg_phase1_all.bed,1kg_phase1_all.bim,1kg_phase1_all.fam} /home/kluser2/datasets/modern/
+
+##############################################################################################################################################
+
+#R PCA
+library('ggfortify')
+MERGED=read.table('hoftest.eigenvec')
+MERGED1=MERGED[,3:4]
+labels=c(rep("Africa",50),rep("Europe",50),rep("Asia",50))
+MERGED$V1=labels
+autoplot(prcomp(MERGED1),data=MERGED ,colour='V1',label = TRUE, label.size = 3)
+
+labels=c(rep("Notsample",1042),rep("OurSample",1),rep("Notsample",1093-1043))
+labels=c(rep("Notsample",797),rep("OurSample",1),rep("Notsample",1964-798))
+labels=c(rep("Epirotes",50),rep("Corinthians",50),rep("Amvrakia_late",50),rep("Amvrakia_initial",50))
+labels=c(rep("Africa",50),rep("Europe",50),rep("Asia",50))
+labels=c(rep("Denisova",50),rep("Nead1",50),rep("Nead2",50),rep("Africa",50),rep("Europe",50),rep("Asia",50))
+
+##############################################################################################################################################
+#Smart PCA
+
+smartpca.perl -i minmyc1kgpelopfilt.ped -a minmyc1kgpelopfilt.map -b minmyc1kgpelop.fam  -k 10 -p wow -e myeigenval -o mypca -l mylog
+
+
+##############################################################################################################################################
+
+
+
+
+LD prunning for admix
+ 
+plink --bfile rawData --indep-pairwise 50 10 0.1
+
+(output indicating number of SNPs targeted for inclusion/exclusion)
+
+plink --bfile rawData --extract plink.prune.in --make-bed --out prunedData
+
+
+
+
+#R admix
+library('pophelper')
+DATA=readQ('.Q')
+MYLABELS=read.table('.fam')
+LABELS=as.data.frame(LOADLABELS[,1])
+LABELS=data.frame(lapply(LABELS, as.character), stringsAsFactors=FALSE)
+TAB=tabulateQ(DATA)
+plotQ(DATA,grplab=LABELS,grplabspacer=0,ordergrp=T,grplabangle=90,grplabsize=1.2,grplabpos=0.5 , height=6 ,imgoutput="join",barbordercolour="white",barsize=1,barbordersize=0,divsize=0.05)
+
+
+##############################################################################################################################################
+#treemix
+
+python3 clusersfortreemix.py --file modern.fam --out modern.clust
+
+Added a small script to convert stratified allele frequencies output from plink into TreeMix format. 
+This will be incorporated into the next release, but for the moment must be downloaded 
+separately. To run this, let's say you have data in plink format (e.g., data.bed, data.bim, 
+data.fam) and a plink cluster file matching each individual to a population (data.clust).
+
+Now you run:
+plink --bfile data --mind 0.9 --freq --missing  --within data.clust
+rm plink.frq.strat.gz
+gzip plink.frq.strat
+python plink2treemix.py plink.frq.strat.gz treemix.frq.gz
+YRI:NA19257 
+
+
+treemix -i treemix.frq.gz
+
+source("plotting_funcs.R")
+plot_tree("outstem")
+
+
+
+awk 'BEGIN {FS=":"; OFS=""} {print "select chrom,chromStart,name from snp132 where chrom = \"chr",$1,"\" and chromStart + 1 = ",$2,";"}' amvrakiasnps.txt > mvrakiasnps.sql
+mysql -h genome-mysql.cse.ucsc.edu -u genome -A -D hg19 --skip-column-names < mvrakiasnps.sql
+
+
+#Download EGA/ENA
+
+#ENA# python3 enaDataGet.py -f submitted ERX2070370
+
+#EGA# java -jar EgaDemoClient.jar -p email address password -rfd EGAD00010000498 -re abc -label request_EGAD00010000498
+
+# Convert CRAM to BAM to VCF (?)
+#samtools view -h -b -@ 16 file.cram -o file.bam -T reference.fa 2>&1 | tee -a log.txt
+
+###########################################################################################################################
+
+###########################################################################################################################
+GATK calling 
+
+./gatk HaplotypeCaller -R /home/kluser1/aDNA/Reference_Genomes/bwakit/hs37.fa -I /home/kluser2/datasets/wholegenome/Bar31.all.split_libRGs.realn.bam -O hofmanova2.g.vcf -ERC GVCF  --dbsnp /home/kluser2/datasets/wholegenome/resources/dbsnp/dbsnp.vcf --minimum-mapping-quality 30 --read-filter MappingQualityAvailableReadFilter  --min-base-quality-score 30  --standard-min-confidence-threshold-for-calling 10.0 --native-pair-hmm-threads 16
+
+./gatk GenotypeGVCFs -R /home/kluser1/aDNA/Reference_Genomes/bwakit/hs37.fa -V /home/kluser2/gatk-4.0.11.0/hofmanova2.g.vcf -O /home/kluser2/gatk-4.0.11.0/hofmanova2.vcf --sites-only-vcf-output false -A BaseQuality -A MappingQuality -D /home/kluser2/datasets/wholegenome/resources/dbsnp/dbsnp.vcf
+
+
+#make index out of reference fasta
+samtools faidx ./hg19.fa
+
+#make dictionary out of reference
+java -jar picard.jar CreateSequenceDictionary  R=/home/kluser2/datasets/wholegenome/resources/genome/hg19.fa O=/home/kluser2/datasets/wholegenome/resources/genome/hg19.dict
+
+###############################################################################################################################################
+pileup + PileupCaller
+
+samtools mpileup -R -B -q30 -Q30 -l /home/kluser2/datasets/LAB_SAMPLES/1200Ksnps.txt  -f /home/kluser1/aDNA/Reference_Genomes/bwakit/hs37.fa  /home/kluser2/datasets/wholegenome/Bar31.all.split_libRGs.realn.bam > Bar31.txt
+
+
+pileupCaller --sampleNames Bar31  --samplePopName NeolithicAnatolia -f /home/kluser2/datasets/minoanmyc/MinMyc.snp  -o EigenStrat -e Bar31 < Bar31.txt
