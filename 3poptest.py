@@ -199,12 +199,12 @@ for REPS in range(0,reps):
                 continue
             line[2]='rs{}'.format(snpcount)
             line[1]=str(variants[snpcount][2])
-            line.append('\n')
-            line='\t'.join(line)
             if line[0] in VCFinfo:
                 VCFinfo[line[0]].append([line[1],line[2]])
             else:
                 VCFinfo[line[0]]=[line[1],line[2]]
+            line.append('\n')
+            line='\t'.join(line)
             snpcount+=1
             
         newVCF.write(line)
