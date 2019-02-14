@@ -216,7 +216,7 @@ for REPS in range(0,reps):
 
 
         
-    for k in range(1,22):
+    for k in range(1,21):
         os.system('plink --vcf myvcf{}.vcf --make-bed --out simulation'.format(k))
         if os.path.isfile('simulation.bed'):
             simulationfile='simulation'
