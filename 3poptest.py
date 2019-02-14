@@ -312,7 +312,7 @@ for REPS in range(0,reps):
     for k in range(1,22):
         segments=[[0,1500]]
         for j in segments:
-            os.system('plink --vcf total_chroms.vcf --chr {} --make-bed --out simulation'.format(k)
+            os.system('plink --vcf total_chroms.vcf --chr {} --make-bed --out simulation'.format(k))
 
             
         ############################################################## RUN PCA ######################################################################
