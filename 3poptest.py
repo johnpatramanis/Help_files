@@ -63,8 +63,8 @@ for REPS in range(0,reps):
 
 
     migration_matrix = [
-        [0,0.00001,0.01],
-        [0.00001,0,0.01],
+        [0,0.0001,0.01],
+        [0.0001,0,0.01],
         [0.01,0.01,0]]
 
     N1=20
@@ -189,26 +189,26 @@ for REPS in range(0,reps):
 
     VCF=open('total_chroms.vcf','r')
     newVCF=open('newtotal_chroms.vcf','w')
-    rss=[0]
-    prevchrom=0
-    thischrom=0
     snpcount=0
-    
+    VCFinfo={}
     variants=sorted(variants)
     for line in VCF:
         if line[0]!='#' and snpcount<len(variants):
             line=line.strip().split()
             if len(line)<=2:
                 continue
-            thischrom=line[0]
             line[2]='rs{}'.format(snpcount)
             if int(thischrom)!=int(prevchrom):
                 rss.append(line[2])
             line[1]=str(variants[snpcount][2])
             line.append('\n')
             line='\t'.join(line)
+            if line[0] in VCFinfo:
+                VCFinfo[line[0]].append([line[1],line[2]])
+            else:
+                VCFinfo[line[0]]=[line[1],line[2]]
             snpcount+=1
-            prevchrom=line[0]
+            
         newVCF.write(line)
 
     VCF.close
@@ -430,4 +430,4 @@ for REPS in range(0,reps):
     
 ###############################################################################################################################################
 print(totalf3)
-print(rss)
+print(VCFinfo)
