@@ -217,6 +217,8 @@ for REPS in range(0,reps):
 
         
     for k in range(1,21):
+    
+    
         os.system('plink --vcf myvcf{}.vcf --make-bed --out simulation'.format(k))
         if os.path.isfile('simulation.bed'):
             simulationfile='simulation'
@@ -261,7 +263,7 @@ for REPS in range(0,reps):
         os.system('mv newsimulation.ind simulation.ind')
 
         Pop3=open('qp3Poplist','w')
-        Pop3.write('africa europe asia')
+        Pop3.write('locals metropolis apoikia')
         Pop3.close()
 
         Parfilepop=open('3popparfile','w')
@@ -274,22 +276,41 @@ for REPS in range(0,reps):
         Parfilepop.close()
 
 
+        #SNP=open('simulation.snp','r')
+        #newSNP=open('newsimulation.snp','w')
+        #snpcounter=0
+        #for line in SNP:
+        #    if snpcounter<len(variants):
+        #        line=line.strip().split()
+        #        line[0]='rs{}'.format(snpcounter)
+        #        line[2]=str(variants[snpcounter])
+        #        line.append('\n')
+        #        line='\t'.join(line)
+        #        snpcounter+=1
+        #        newSNP.write(line)
+
+
+
+
+        #SNP.close
+        #newSNP.close
+
+        os.system('mv newsimulation.snp simulation.snp')
         os.system('ls')
 
 
 
-        os.system('qp3Pop -p 3popparfile >f3stat')
-        f3file=open('f3stat','r')
+        os.system('qp3Pop -p 3popparfile >f3stat_{}'.format(REPS))
+        
+        
+        f3file=open('f3stat_{}'.format(REPS),'r')
+        
         for line in f3file:
             line=line.strip().split()
             #print(line)
             if line[0]=='result:':
                 totalf3.append(float(line[4]))
         f3file.close()
-        
-        
-        
-        
 
     
     
