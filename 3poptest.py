@@ -190,7 +190,9 @@ for REPS in range(0,reps):
 
     VCF=open('total_chroms.vcf','r')
     newVCF=open('newtotal_chroms.vcf','w')
-
+    rss=[0]
+    prevchrom=0
+    thischrom=0
     snpcount=0
     
     variants=sorted(variants)
@@ -199,11 +201,15 @@ for REPS in range(0,reps):
             line=line.strip().split()
             if len(line)<=2:
                 continue
+            thischrom=line[0]
             line[2]='rs{}'.format(snpcount)
+            if thischrom!=prevchrom:
+                rss.append(line[2])
             line[1]=str(variants[snpcount][2])
             line.append('\n')
             line='\t'.join(line)
             snpcount+=1
+            prevchrom=line[0]
         newVCF.write(line)
 
     VCF.close
@@ -426,4 +432,4 @@ for REPS in range(0,reps):
     
 ###############################################################################################################################################
 print(totalf3)
-
+print(rss)
