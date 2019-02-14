@@ -315,7 +315,7 @@ for REPS in range(0,reps):
         SNP=open('simulation.snp','r')
         newSNP=open('newsimulation.snp','w')
         for line in SNP:
-            if len(line.strip().split())>=2:
+            if len(line.strip().split())>=3:
                 line=line.strip().split()
                 line[0]='rs{}'.format(snpcounter)
                 line[2]=str(variants[snpcounter])
