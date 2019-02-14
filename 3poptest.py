@@ -77,7 +77,7 @@ for REPS in range(0,reps):
         i.write_vcf(wow,2,str(j))
         wow.close()
     #    print(dd.samples())
-        population_labels= ["locals"]*50 + ["metropolis"]*50 + ["colony"]*50
+        population_labels= ["africa"]*50 + ["asia"]*50 + ["europe"]*50
         d=0
         newlabels=[]
         for i in range(0,len(population_labels)):
@@ -100,7 +100,7 @@ for REPS in range(0,reps):
         wow.close()
         wowzers.close()
         j+=1
-        
+
     os.system('rm mynewvcf*.vcf')
     os.system('bcftools concat -o total_chroms.vcf myvcf*.vcf')
     os.system('rm myvcf*.vcf')
@@ -112,15 +112,11 @@ for REPS in range(0,reps):
     newVCF=open('newtotal_chroms.vcf','w')
 
     snpcount=0
-    
-    variants=sorted(variants)
     for line in VCF:
         if line[0]!='#' and snpcount<len(variants):
             line=line.strip().split()
-            if len(line)<=2:
-                continue
             line[2]='rs{}'.format(snpcount)
-            line[1]=str(variants[snpcount][2])
+            line[1]=str(variants[snpcount])
             line.append('\n')
             line='\t'.join(line)
             snpcount+=1
