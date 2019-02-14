@@ -306,7 +306,8 @@ for REPS in range(0,reps):
         if line[0]=='result:':
             totalf3.append(float(line[4]))
     f3file.close()
-    
+    os.system('rm simulation.*')
+    os.system('rm simulation-temporary.*')
     
     for k in range(1,22):
         segments=[[0,100],[200,300],[400,500]]
@@ -407,7 +408,8 @@ for REPS in range(0,reps):
                 if line[0]=='result:':
                     totalf3.append(float(line[4]))
             f3file.close()
-    
+            os.system('rm simulation.*')
+            os.system('rm simulation-temporary.*')
     
     
     
