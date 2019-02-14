@@ -253,7 +253,7 @@ for REPS in range(0,reps):
 
         
     for k in range(1,21):
-    
+        snpcounter=0
     
         os.system('plink --vcf myvcf{}.vcf --make-bed --out simulation'.format(k))
         if os.path.isfile('simulation.bed'):
@@ -314,9 +314,8 @@ for REPS in range(0,reps):
 
         SNP=open('simulation.snp','r')
         newSNP=open('newsimulation.snp','w')
-        snpcounter=0
         for line in SNP:
-            if snpcounter<len(variants):
+            if len(line.strip().split())>=2:
                 line=line.strip().split()
                 line[0]='rs{}'.format(snpcounter)
                 line[2]=str(variants[snpcounter])
