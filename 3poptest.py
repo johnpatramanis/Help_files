@@ -160,7 +160,6 @@ for REPS in range(0,reps):
             #print(len(L),'1')
             sys.stdout.flush()
             variants=sorted(list(L))
-            print(variants)
 
 
     variantinfo=['{}\t{}\t{}\n'.format(x[0],x[1],x[2])for x in variants]
@@ -203,7 +202,7 @@ for REPS in range(0,reps):
                 continue
             thischrom=line[0]
             line[2]='rs{}'.format(snpcount)
-            if thischrom!=prevchrom:
+            if int(thischrom)!=int(prevchrom):
                 rss.append(line[2])
             line[1]=str(variants[snpcount][2])
             line.append('\n')
@@ -226,7 +225,6 @@ for REPS in range(0,reps):
     else:
         simulationfile='simulation-temporary'
     
-    os.system('plink --bfile {} --pca 10 --out pcaofsimulation'.format(simulationfile))
 
 
 ########################################### 3 Pop Test ######################################################################################
