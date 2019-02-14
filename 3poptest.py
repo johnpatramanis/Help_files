@@ -310,7 +310,7 @@ for REPS in range(0,reps):
     os.system('rm simulation-temporary.*')
     
     for k in range(1,22):
-        segments=[[0,100],[150,250],[300,400]]
+        segments=[[0,300],[350,650],[700,1000]]
         for j in segments:
             os.system('plink --vcf total_chroms.vcf --chr {} --from-kb {} --to-kb {}  --make-bed --out simulation'.format(k,j[0],j[1]))
 
