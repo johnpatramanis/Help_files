@@ -103,7 +103,7 @@ for REPS in range(0,reps):
 
     os.system('rm mynewvcf*.vcf')
     os.system('bcftools concat -o total_chroms.vcf myvcf*.vcf')
-    os.system('rm myvcf*.vcf')
+    #os.system('rm myvcf*.vcf')
 
 
 
@@ -200,7 +200,6 @@ for REPS in range(0,reps):
             line.append('\n')
             line='\t'.join(line)
             snpcounter+=1
-            print(line)
             newSNP.write(line)
 
 
@@ -324,7 +323,6 @@ for REPS in range(0,reps):
                 line.append('\n')
                 line='\t'.join(line)
                 snpcounter+=1
-                print(line)
                 newSNP.write(line)
 
 
