@@ -63,8 +63,8 @@ for REPS in range(0,reps):
 
 
     migration_matrix = [
-        [0,0.0001,0.01],
-        [0.0001,0,0.01],
+        [0,0.00001,0.01],
+        [0.00001,0,0.01],
         [0.01,0.01,0]]
 
     N1=20
@@ -310,7 +310,7 @@ for REPS in range(0,reps):
     os.system('rm simulation-temporary.*')
     
     for k in range(1,22):
-        segments=[[0,100],[200,300],[400,500]]
+        segments=[[0,100],[150,250],[300,400]]
         for j in segments:
             os.system('plink --vcf total_chroms.vcf --chr {} --from-kb {} --to-kb {}  --make-bed --out simulation'.format(k,j[0],j[1]))
 
