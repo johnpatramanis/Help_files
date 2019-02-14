@@ -290,8 +290,6 @@ for REPS in range(0,reps):
         
         
         
-        os.system('rm simulation.*')
-        os.system('rm simulation-temporary.*')
 
     
     
