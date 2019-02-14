@@ -198,8 +198,6 @@ for REPS in range(0,reps):
             if len(line)<=2:
                 continue
             line[2]='rs{}'.format(snpcount)
-            if int(thischrom)!=int(prevchrom):
-                rss.append(line[2])
             line[1]=str(variants[snpcount][2])
             line.append('\n')
             line='\t'.join(line)
@@ -430,4 +428,4 @@ for REPS in range(0,reps):
     
 ###############################################################################################################################################
 print(totalf3)
-print(len(VCFinfo))
+print(VCFinfo)
