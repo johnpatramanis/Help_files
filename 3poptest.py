@@ -193,6 +193,44 @@ for REPS in range(0,reps):
 
     Parfilepop.close()
 
+    SNP=open('simulation.snp','r')
+    newSNP=open('newsimulation.snp','w')
+    snpcounter=0
+    for line in SNP:
+        if snpcounter<len(variants):
+            line=line.strip().split()
+            line[0]='rs{}'.format(snpcounter)
+            line[2]=str(variants[snpcounter])
+            line.append('\n')
+            line='\t'.join(line)
+            snpcounter+=1
+            print(line)
+            newSNP.write(line)
+
+
+
+
+    SNP.close
+    newSNP.close
+
+    os.system('mv newsimulation.snp simulation.snp')
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     os.system('ls')
 
@@ -290,13 +328,14 @@ for REPS in range(0,reps):
                 line.append('\n')
                 line='\t'.join(line)
                 snpcounter+=1
+                print(line)
                 newSNP.write(line)
 
 
 
 
-        #SNP.close
-        #newSNP.close
+        SNP.close
+        newSNP.close
 
         os.system('mv newsimulation.snp simulation.snp')
         os.system('ls')
