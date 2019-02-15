@@ -202,7 +202,7 @@ for REPS in range(0,reps):
             if line[0] in VCFinfo:
                 VCFinfo[line[0]].append([line[1],line[2]])
             else:
-                VCFinfo[line[0]]=[line[1],line[2]]
+                VCFinfo[line[0]]=[float(line[1]),line[2]]
             line.append('\n')
             line='\t'.join(line)
             snpcount+=1
@@ -313,12 +313,22 @@ for REPS in range(0,reps):
     os.system('rm simulation-temporary.*')
     
     for k in range(1,22):
-        segments=[[0,1500]]
-        for j in segments:
-            os.system('plink --vcf total_chroms.vcf --chr {} --make-bed --out simulation'.format(k))
+        begin=0
+        end=0
+        segments=[]
+        segments.append(VCFinfo[str(k)][0][1])
+        y in VCFinfo[str(k)]:
+            end=float(y[0])
+            if (end-begin>=500000.0) :
+                segments.append(y[1])
+                begin=float(line[2])+100000.0
+        
+        for j in range(0,len(segments)-1):
+            print(segments[j])
+            os.system('plink --vcf total_chroms.vcf --chr {} --from {} --to {} --make-bed --out simulation'.format(k,,segments[j],segments[j+1]))
 
-            
-        ############################################################## RUN PCA ######################################################################
+                                                                                                                                            
+################################################################### RUN PCA ######################################################################
             if os.path.isfile('simulation.bed'):
                 simulationfile='simulation'
             else:
