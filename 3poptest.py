@@ -117,7 +117,7 @@ for REPS in range(0,reps):
         dd.write_vcf(wow,2,str(j))
         wow.close()
         
-        population_labels= ["locals"]*int(N1/2) + ["metropolis"]*int(N2/2) + ["apoikia"]*int(N3/2)
+        population_labels= ["locals"]*int(N1/2) + ["metropolis"]*int(N2/2) + ["colony"]*int(N3/2)
         d=0
         newlabels=[]
         for i in range(0,len(population_labels)):
@@ -261,7 +261,7 @@ for REPS in range(0,reps):
     os.system('mv newsimulation.ind simulation.ind')
 
     Pop3=open('qp3Poplist','w')
-    Pop3.write('locals metropolis apoikia')
+    Pop3.write('locals metropolis colony')
     Pop3.close()
 
     Parfilepop=open('3popparfile','w')
@@ -372,7 +372,7 @@ for REPS in range(0,reps):
             os.system('mv newsimulation.ind simulation.ind')
 
             Pop3=open('qp3Poplist','w')
-            Pop3.write('locals metropolis apoikia')
+            Pop3.write('locals metropolis colony')
             Pop3.close()
 
             Parfilepop=open('3popparfile','w')
@@ -405,7 +405,6 @@ for REPS in range(0,reps):
             #newSNP.close
 
             os.system('mv newsimulation.snp simulation.snp')
-            os.system('ls')
 
 
 
@@ -418,6 +417,8 @@ for REPS in range(0,reps):
                 line=line.strip().split()
                 #print(line)
                 if line[0]=='result:':
+                    print(line)
+                    print('#######################################################')
                     totalf3.append(float(line[4]))
             f3file.close()
             os.system('rm simulation.*')
@@ -426,8 +427,8 @@ for REPS in range(0,reps):
     
     
     
-    os.system('rm simulation.*')
-    os.system('rm simulation-temporary.*')
+    #os.system('rm simulation.*')
+    #os.system('rm simulation-temporary.*')
     os.system('rm ms_prime_*')
     for x in range(1,23):
         os.system('rm ms_{}'.format(x))
