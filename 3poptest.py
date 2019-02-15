@@ -383,31 +383,10 @@ for REPS in range(0,reps):
             Parfilepop.write('popfilename: qp3Poplist\n')
 
             Parfilepop.close()
-
-
-            #SNP=open('simulation.snp','r')
-            #newSNP=open('newsimulation.snp','w')
-            #snpcounter=0
-            #for line in SNP:
-            #    if snpcounter<len(variants):
-            #        line=line.strip().split()
-            #        line[0]='rs{}'.format(snpcounter)
-            #        line[2]=str(variants[snpcounter])
-            #        line.append('\n')
-            #        line='\t'.join(line)
-            #        snpcounter+=1
-            #        newSNP.write(line)
-
-
-
-
-            #SNP.close
-            #newSNP.close
-
             os.system('mv newsimulation.snp simulation.snp')
 
 
-
+            print('#######################################################')
             os.system('qp3Pop -p 3popparfile >f3stat_{}'.format(REPS))
             
             
