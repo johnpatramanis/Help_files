@@ -319,13 +319,13 @@ for REPS in range(0,reps):
         segments.append(VCFinfo[str(k)][0][1])
         for y in VCFinfo[str(k)]:
             end=float(y[0])
-            if (end-begin>=500000.0) :
+            if (end-begin>=1000000.0) or (y==VCFinfo[str(k)][-1]) :
                 segments.append(y[1])
-                begin=float(line[2])+100000.0
+                begin=float(y[0])+100000.0
         
         for j in range(0,len(segments)-1):
             print(segments[j])
-            os.system('plink --vcf total_chroms.vcf --chr {} --from {} --to {} --make-bed --out simulation'.format(k,segments[j],segments[j+1]))
+            os.system('plink --vcf total_chroms.vcf  --from {} --to {} --make-bed --out simulation'.format(segments[j],segments[j+1]))
 
                                                                                                                                             
 ################################################################### RUN PCA ######################################################################
