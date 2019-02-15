@@ -400,8 +400,8 @@ for REPS in range(0,reps):
                     print('#######################################################')
                     totalf3.append(float(line[4]))
             f3file.close()
-            os.system('rm simulation.*')
-            os.system('rm simulation-temporary.*')
+            #os.system('rm simulation.*')
+            #os.system('rm simulation-temporary.*')
     
     
     
