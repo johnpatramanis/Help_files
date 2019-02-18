@@ -414,4 +414,8 @@ for REPS in range(0,reps):
 ###############################################################################################################################################
 f3FINAL=open('f3FINAL.txt','w')
 for line in totalf3:
-    f3FINAL.write('\t'.join(line)+'\n')
+    for x in line:
+        f3FINAL.write(str(x))
+        f3FINAL.write('\t')
+    f3FINAL.write('\n')
+    
