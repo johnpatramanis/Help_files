@@ -257,7 +257,17 @@ for REPS in range(0,reps):
         
     IND.close
     newIND.close()
-        
+    SNP=open(simulation.snp)
+    snpcounter=0
+    for line in SNP:
+        snpcounter+=1
+        SNP.close()
+    
+    
+    
+    
+    
+    
     os.system('mv newsimulation.ind simulation.ind')
 
     Pop3=open('qp3Poplist','w')
@@ -272,27 +282,7 @@ for REPS in range(0,reps):
     Parfilepop.write('popfilename: qp3Poplist\n')
 
     Parfilepop.close()
-
-
-    #SNP=open('simulation.snp','r')
-    #newSNP=open('newsimulation.snp','w')
-    #snpcounter=0
-    #for line in SNP:
-    #    if snpcounter<len(variants):
-    #        line=line.strip().split()
-    #        line[0]='rs{}'.format(snpcounter)
-    #        line[2]=str(variants[snpcounter])
-    #        line.append('\n')
-    #        line='\t'.join(line)
-    #        snpcounter+=1
-    #        newSNP.write(line)
-
-
-
-
-    #SNP.close
-    #newSNP.close
-
+    
     os.system('mv newsimulation.snp simulation.snp')
     os.system('ls')
 
@@ -307,7 +297,7 @@ for REPS in range(0,reps):
         line=line.strip().split()
         #print(line)
         if line[0]=='result:':
-            totalf3.append(float(line[4]))
+            totalf3.append(float(line[4]),snpcounter))
     f3file.close()
     os.system('rm simulation.*')
     os.system('rm simulation-temporary.*')
@@ -424,4 +414,4 @@ for REPS in range(0,reps):
 ###############################################################################################################################################
 f3FINAL=open('f3FINAL.txt','w')
 for line in totalf3:
-    f3FINAL.write(str(line)+'\n')
+    f3FINAL.write('\t'.join(line)+'\n')
