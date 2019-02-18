@@ -319,7 +319,7 @@ for REPS in range(0,reps):
         segments.append(VCFinfo[str(k)][0][1])
         for y in VCFinfo[str(k)]:
             end=float(y[0])
-            if (end-begin>=1000000.0):
+            if ((end-begin)>=10000000.0):
                 segments.append(y[1])
                 begin=float(y[0])+100000.0
         
@@ -368,7 +368,14 @@ for REPS in range(0,reps):
                 
             IND.close
             newIND.close()
-                
+            SNP=open(simulation.snp)
+            snpcounter=0
+            for line in SNP:
+                snpcounter+=1
+            SNP.close()
+            
+            
+            
             os.system('mv newsimulation.ind simulation.ind')
 
             Pop3=open('qp3Poplist','w')
@@ -396,7 +403,7 @@ for REPS in range(0,reps):
                 #print(line)
                 if line[0]=='result:':
                     print(line)
-                    totalf3.append(float(line[4]))
+                    totalf3.append(float(line[4]),snpcounter)
             f3file.close()
             #os.system('rm simulation.*')
             #os.system('rm simulation-temporary.*')
