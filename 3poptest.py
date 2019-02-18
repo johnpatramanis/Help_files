@@ -261,7 +261,7 @@ for REPS in range(0,reps):
     snpcounter=0
     for line in SNP:
         snpcounter+=1
-        SNP.close()
+    SNP.close()
     
     
     
