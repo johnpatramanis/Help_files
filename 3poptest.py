@@ -297,7 +297,7 @@ for REPS in range(0,reps):
         line=line.strip().split()
         #print(line)
         if line[0]=='result:':
-            totalf3.append(float(line[4]),snpcounter)
+            totalf3.append([float(line[4]),snpcounter])
     f3file.close()
     os.system('rm simulation.*')
     os.system('rm simulation-temporary.*')
@@ -393,7 +393,7 @@ for REPS in range(0,reps):
                 #print(line)
                 if line[0]=='result:':
                     print(line)
-                    totalf3.append(float(line[4]),snpcounter)
+                    totalf3.append([float(line[4]),snpcounter])
             f3file.close()
             #os.system('rm simulation.*')
             #os.system('rm simulation-temporary.*')
