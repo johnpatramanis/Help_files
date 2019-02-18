@@ -386,7 +386,6 @@ for REPS in range(0,reps):
             os.system('mv newsimulation.snp simulation.snp')
 
 
-            print('#######################################################')
             os.system('qp3Pop -p 3popparfile >f3stat_{}'.format(REPS))
             
             
@@ -397,7 +396,6 @@ for REPS in range(0,reps):
                 #print(line)
                 if line[0]=='result:':
                     print(line)
-                    print('#######################################################')
                     totalf3.append(float(line[4]))
             f3file.close()
             #os.system('rm simulation.*')
@@ -417,4 +415,6 @@ for REPS in range(0,reps):
     
     
 ###############################################################################################################################################
-print(totalf3)
+f3FINAL=open('f3FINAL.txt','w')
+for line in totalf3:
+    f3FINAL.write(str(line)+'\n')
