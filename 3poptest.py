@@ -257,7 +257,7 @@ for REPS in range(0,reps):
         
     IND.close
     newIND.close()
-    SNP=open(simulation.snp)
+    SNP=open('simulation.snp','r')
     snpcounter=0
     for line in SNP:
         snpcounter+=1
@@ -358,7 +358,7 @@ for REPS in range(0,reps):
                 
             IND.close
             newIND.close()
-            SNP=open(simulation.snp)
+            SNP=open('simulation.snp','r')
             snpcounter=0
             for line in SNP:
                 snpcounter+=1
