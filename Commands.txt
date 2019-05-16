@@ -32,9 +32,8 @@ cp /home/kluser2/datasets/1kg/{1kg_phase1_all.bed,1kg_phase1_all.bim,1kg_phase1_
 
 #R PCA
 library('ggfortify')
-MERGED=read.table('hoftest.eigenvec')
+MERGED=read.table('simulation.eigenvec')
 MERGED1=MERGED[,3:4]
-labels=c(rep("Africa",50),rep("Europe",50),rep("Asia",50))
 MERGED$V1=labels
 autoplot(prcomp(MERGED1),data=MERGED ,colour='V1',label = TRUE, label.size = 3)
 
@@ -43,8 +42,14 @@ labels=c(rep("Notsample",797),rep("OurSample",1),rep("Notsample",1964-798))
 labels=c(rep("Epirotes",50),rep("Corinthians",50),rep("Amvrakia_late",50),rep("Amvrakia_initial",50))
 labels=c(rep("Africa",50),rep("Europe",50),rep("Asia",50))
 labels=c(rep("Denisova",50),rep("Nead1",50),rep("Nead2",50),rep("Africa",50),rep("Europe",50),rep("Asia",50))
+labels=c(rep('Locals',10),rep('Metropolis',10),rep('Colonists',10))
+###
+legend_title='Populations'
+ggplot(MERGED1,aes(x=MERGED1[,1], y=MERGED1[,2], group=MERGED$V1)) + geom_point(aes(shape=MERGED$V1, color=MERGED$V1, fill=MERGED$V1, size=0.05)) +  scale_shape_manual(legend_title,values=c(21,21,21)) + scale_color_manual(legend_title,values=c('red','blue','green'))+ labs(title = "Principal Component Analysis", subtitle = "859 modern samples & 335 ancient samples", x="PC1", y="PC2") + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + theme(legend.position="bottom")
 
-##############################################################################################################################################
+
+
+###########################################################################################################################################
 #Smart PCA
 
 smartpca.perl -i minmyc1kgpelopfilt.ped -a minmyc1kgpelopfilt.map -b minmyc1kgpelop.fam  -k 10 -p wow -e myeigenval -o mypca -l mylog
@@ -133,7 +138,26 @@ java -jar picard.jar CreateSequenceDictionary  R=/home/kluser2/datasets/wholegen
 ###############################################################################################################################################
 pileup + PileupCaller
 
-samtools mpileup -R -B -q30 -Q30 -l /home/kluser2/datasets/LAB_SAMPLES/1200Ksnps.txt  -f /home/kluser1/aDNA/Reference_Genomes/bwakit/hs37.fa  /home/kluser2/datasets/wholegenome/Bar31.all.split_libRGs.realn.bam > Bar31.txt
+samtools mpileup -R -B -q30 -Q30 -l /home/kluser2/datasets/LAB_SAMPLES/1200Ksnps.bed  -f /home/kluser1/aDNA/Reference_Genomes/bwakit/hs37.fa /home/kluser2/datasets/wholegenomes_old_reference/MA2410_L1_S1.realign.bam > MA2410_ancient
+samtools mpileup -R -B -q30 -Q30 -l /home/kluser2/datasets/LAB_SAMPLES/1200Ksnps.bed  -f /home/kluser1/aDNA/Reference_Genomes/bwakit/hs37.fa  /home/kluser2/datasets/wholegenomes_old_reference/MA2419_L1_S1.rmdup.rescaled.bam > MA2419_L1_ancient_rescale
 
+#Pileup and then to vcf
+samtools mpileup -R -B -q30 -Q30  -f /home/kluser1/aDNA/Reference_Genomes/bwakit/hs37.fa /home/kluser2/datasets/wholegenomes_old_reference/MA2410_L1_S1_1K.realign.bam > MA2410.mpileup
+bcftools view -cg MA2410.mpileup > MA2410.vcf
 
-pileupCaller --sampleNames Bar31  --samplePopName NeolithicAnatolia -f /home/kluser2/datasets/minoanmyc/MinMyc.snp  -o EigenStrat -e Bar31 < Bar31.txt
+pileupCaller --sampleNames MA2419_L1_rescale  --samplePopName MedievalGreece -f /home/kluser2/datasets/ancientdatabase/ancientdatabase.snp  -o EigenStrat -e MA2419_L1_ancient_rescale < MA2419_L1_ancient_rescale
+pileupCaller --sampleNames MA2419_L1_rescale  --samplePopName MedievalGreece -f /home/kluser2/datasets/ancientdatabase/vdata.snp  -o EigenStrat -e MA2419_L1_HOA < MA2419_L1_HOA
+
+positions to rs 
+merge
+convertf
+
+###############################################################################################################################################
+aDNA callers
+#download one sample from litterature
+https://www.ebi.ac.uk/ena/data/view/ERS979723
+
+#AntCaller
+samtools view -h example.bam | python AntCaller-1.1.py --pileup -o example
+samtools view -h example.bam | python AntCaller-1.1.py --extract -o example
+python AntCaller-1.1.py --snpcalling -o example -d example.damageinfo -f example.AntCaller.pileup
