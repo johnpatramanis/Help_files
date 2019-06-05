@@ -132,6 +132,9 @@ GATK calling
 #make index out of reference fasta
 samtools faidx ./hg19.fa
 
+#Check RG tags for info in bam file
+samtools view -H sample.bam | grep '@RG'
+
 #make dictionary out of reference
 java -jar picard.jar CreateSequenceDictionary  R=/home/kluser2/datasets/wholegenome/resources/genome/hg19.fa O=/home/kluser2/datasets/wholegenome/resources/genome/hg19.dict
 
@@ -161,3 +164,8 @@ https://www.ebi.ac.uk/ena/data/view/ERS979723
 samtools view -h example.bam | python AntCaller-1.1.py --pileup -o example
 samtools view -h example.bam | python AntCaller-1.1.py --extract -o example
 python AntCaller-1.1.py --snpcalling -o example -d example.damageinfo -f example.AntCaller.pileup
+
+#snpAD Caller
+
+Bam2snpAD -f /home/kluser1/aDNA/Reference_Genomes/bwakit/hs37.fa -i MA2410_L1_S1.realign.bai  -r $i -Q 30 MA2410_L1_S1.realign.bam >>MA2410_L1_S1.realign.snpAD
+snpAD -c 2 -o priors.txt -O errors.txt MA2410_L1_S1.realign.snpAD
