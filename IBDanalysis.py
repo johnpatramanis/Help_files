@@ -7,8 +7,7 @@ import re
 import random
 import sys
 import seaborn
-
-
+import scipy.special
 
 DATA=[]
 for chr in range(1,22):
@@ -83,22 +82,23 @@ for seg in DATA:
 #creation ,appending of inner dictionaries
 #prepei na diairw me pop1*pop2
 for seg in DATA:
-    if seg[2] in IBDS[seg[0]].keys():
-        IBDS[seg[0]][seg[2]]+=float(seg[-1])/(SAMPLES[seg[0]]*SAMPLES[seg[2]])
-        
-    if seg[2] not in IBDS[seg[0]].keys():
-        IBDS[seg[0]][seg[2]]=float(seg[-1])/(SAMPLES[seg[0]]*SAMPLES[seg[2]])
-
-
-
-
-
-    if seg[0] in IBDS[seg[2]].keys():
-        IBDS[seg[2]][seg[0]]+=float(seg[-1])/(SAMPLES[seg[0]]*SAMPLES[seg[2]])
-        
-        
-    if seg[0] not in IBDS[seg[2]].keys():
-        IBDS[seg[2]][seg[0]]=float(seg[-1])/(SAMPLES[seg[0]]*SAMPLES[seg[2]])
+    if float(seg[-1])>=5:
+        if seg[2] in IBDS[seg[0]].keys():
+            IBDS[seg[0]][seg[2]]+=float(seg[-1])/(SAMPLES[seg[0]]*SAMPLES[seg[2]])
+            
+        if seg[2] not in IBDS[seg[0]].keys():
+            IBDS[seg[0]][seg[2]]=float(seg[-1])/(SAMPLES[seg[0]]*SAMPLES[seg[2]])
+    
+    
+    
+    
+    
+        if seg[0] in IBDS[seg[2]].keys():
+            IBDS[seg[2]][seg[0]]+=float(seg[-1])/(SAMPLES[seg[0]]*SAMPLES[seg[2]])
+            
+            
+        if seg[0] not in IBDS[seg[2]].keys():
+            IBDS[seg[2]][seg[0]]=float(seg[-1])/(SAMPLES[seg[0]]*SAMPLES[seg[2]])
 
 
 CHOSENPOP='Crete'
