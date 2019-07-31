@@ -100,4 +100,11 @@ for seg in DATA:
     if seg[0] not in IBDS[seg[2]].keys():
         IBDS[seg[2]][seg[0]]=float(seg[-1])/(SAMPLES[seg[0]]*SAMPLES[seg[2]])
 
-print(IBDS['Crete'])
+
+CHOSENPOP='Crete'
+pop=[]
+for y in IBDS[CHOSENPOP]:
+    pop.append([IBDS[CHOSENPOP][y],y])
+
+for y in sorted(pop):
+    print(y)
