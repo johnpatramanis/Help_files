@@ -2,6 +2,7 @@ import itertools
 import numpy as np
 
 #############################################################################################################################################
+#FUNCTONS
 
 def PAIRWISE(individs_tupple):
     individs_list=list(individs_tupple)
@@ -35,7 +36,7 @@ def F3(pop1,pop2,popX):
 
 
 #############################################################################################################################################
-
+#LOAD DATA
 
 FILE=open('test.ms','r')
 npop=3
@@ -50,24 +51,23 @@ for line in FILE:
         datasets[(set-1)].append(line.strip())
         
 print(datasets)
-
+#EACH DATASET IS A RUN
 
 ALLF3=[]
-
+#FOR EACH RUN
 for set in datasets:
     populations=[[]]
     counter=0
     popcount=0
-    for ind in set:
+    for ind in set: #Split popoulations
         populations[popcount].append(ind)
         counter+=1
         if counter==Ns[popcount]:
             counter=0
             popcount+=1
             populations.append([])
-    populations=populations[:-1]
-    combinations=list(itertools.product(populations[0], populations[1]))
-    print(F3(populations[1],populations[0],populations[2]))
+    populations=populations[:-1] #last is empty
+    print(F3(populations[1],populations[0],populations[2])) #compute F3 for third population
     ALLF3.append(F3(populations[1],populations[0],populations[2]))
 F3TOTAL=np.mean(ALLF3)
 print(F3TOTAL)
