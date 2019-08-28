@@ -1,21 +1,7 @@
 import itertools
 import numpy as np
 
-FILE=open('test.ms','r')
-npop=3
-Ns=[10,10,10]
-set=0
-datasets=[]
-for line in FILE:
-    if line[0]=='/':
-        set+=1
-        datasets.append([])
-    if line[0]=='1' or line[0]=='0':
-        datasets[(set-1)].append(line.strip())
-        
-print(datasets)
-
-
+#############################################################################################################################################
 
 def PAIRWISE(individs_tupple):
     individs_list=list(individs_tupple)
@@ -48,7 +34,26 @@ def F3(pop1,pop2,popX):
     return myF3
 
 
-F3total=[]
+#############################################################################################################################################
+
+
+FILE=open('test.ms','r')
+npop=3
+Ns=[10,10,10]
+set=0
+datasets=[]
+for line in FILE:
+    if line[0]=='/':
+        set+=1
+        datasets.append([])
+    if line[0]=='1' or line[0]=='0':
+        datasets[(set-1)].append(line.strip())
+        
+print(datasets)
+
+
+ALLF3=[]
+
 for set in datasets:
     populations=[[]]
     counter=0
@@ -62,7 +67,7 @@ for set in datasets:
             populations.append([])
     populations=populations[:-1]
     combinations=list(itertools.product(populations[0], populations[1]))
-
-
-    print(F3(populations[2],populations[0],populations[1]))
-    #combs=list(itertools.product(a, b))
+    print(F3(populations[1],populations[0],populations[2]))
+    ALLF3.append(F3(populations[1],populations[0],populations[2]))
+F3TOTAL=np.mean(ALLF3)
+print(F3TOTAL)
