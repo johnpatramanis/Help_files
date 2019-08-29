@@ -10,8 +10,9 @@ def PAIRWISE(individs_tupple):
     DIFF=0
     for l in range(0,len(ind1)):
         if ind1[l]!=ind2[l]:
+
             DIFF+=1
-    PAIRWISEDIFF=DIFF/len(ind1)
+    PAIRWISEDIFF=DIFF #### /len(ind1)
     return PAIRWISEDIFF
 
 def AVG_PAIRWISE(pop1,pop2):
@@ -24,8 +25,21 @@ def AVG_PAIRWISE(pop1,pop2):
     return MEAN
 
 
+
+def AVG_PAIRWISE_WITHIN(pop):
+    MEAN=[]
+    combinations=list(itertools.product(pop, pop))
+    for comb in combinations:
+        pairwise=PAIRWISE(comb)
+        MEAN.append(pairwise)
+    MEAN=np.sum(MEAN)/(len(MEAN)-len(pop))
+    ##print("mean: ", MEAN)
+    return MEAN
+
+
 def F2(pop1,pop2):
-    myF2=AVG_PAIRWISE(pop1,pop2)-((AVG_PAIRWISE(pop1,pop1)+AVG_PAIRWISE(pop2,pop2))/2)
+    myF2=AVG_PAIRWISE(pop1,pop2)-((AVG_PAIRWISE_WITHIN(pop1)+AVG_PAIRWISE_WITHIN(pop2))/2)
+    ##print("F2: ", myF2)
     return myF2
 
 
@@ -37,7 +51,7 @@ def F3(pop1,pop2,popX):
 #############################################################################################################################################
 
 
-FILE=open('test.ms','r')
+FILE=open('ms.out','r')
 firstline=FILE.readline()
 secondline=FILE.readline()
 
@@ -70,11 +84,14 @@ for set in datasets:
     populations=populations[:-1]
     combinations=list(itertools.product(populations[0], populations[1]))
     print('#F3')
-    print(F3(populations[2],populations[1],populations[0]))
+    print(F3(populations[1],populations[2],populations[0]))
     print('#F2s')
-    print(F2(populations[0],populations[2]))
     print(F2(populations[0],populations[1]))
+        
+    print(F2(populations[0],populations[2]))
+        
     print(F2(populations[1],populations[2]))
+    
 
 
 
