@@ -46,9 +46,6 @@ Ns=[20,20,20]
 set=0
 datasets=[]
 for line in FILE:
-    print(set)
-    print(datasets)
-    print(line[0])
     
     if line[0]=='/':
         set+=1
@@ -56,8 +53,6 @@ for line in FILE:
     if line[0]=='1' or line[0]=='0':
         datasets[(set-1)].append(line.strip())
         
-print(datasets)
-
 
 ALLF3=[]
 
@@ -74,6 +69,7 @@ for set in datasets:
             populations.append([])
     populations=populations[:-1]
     combinations=list(itertools.product(populations[0], populations[1]))
+    print('#F3')
     print(F3(populations[2],populations[1],populations[0]))
     print('#F2s')
     print(F2(populations[0],populations[2]))
